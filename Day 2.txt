@@ -1,0 +1,837 @@
+JSON
+====
+A JSON Document is a collection of fields and values in a structured format.
+
+JSON => Java Script Object Notation
+
+JavaScript Based On ECMA Standards(European Computers Manufacturers Association)
+
+JSON is based on subset of JS ECMA 262 3rd edition.
+
+Example:
+========
+{
+  "first_name" : "Kevin P"
+  "last_name" : "Ryan"
+  "Designation" : "CEO"
+}
+
+
+BSON
+====
+Binary JSON, which is a binary-coded serialization of JSON like documents.
+
+serialization  = converting data in to binary format(0's and 1's)
+deserialization =  converting data from binary format in to readable format
+
+Documents
+=========
+MongoDB stores data as BSON documents,which are simply called as documents.
+
+A document is a set of field and value pairs
+
+Example:
+========
+{
+   _id : ObjectId("ader453535sdad334"),
+  first_name : "Kevin P"
+  last_name : "Ryan"
+  Designation : "CEO",
+	age : 45,
+	DOB : new Date('June 01,1977')
+  address :{
+	city: "california",
+	country : "USA"
+	}
+}
+
+field names = strings
+values = numbers,strings,objects,arrays etc.,
+
+_id holds an objectId
+
+first_name,last_name,Designation :  holds strings
+
+age holds number
+
+DOB  holds date
+
+address holds embedded document that contains two fields city and country.
+
+
+document = row in RDBMS
+
+restrictions for writing field names:
+======================================
+
+MongoDB reserves the field _id for storing unique identity for the document.
+
+Field names cannot contain null characters
+
+Example:
+========
+{
+   _id : ObjectId("ader453535sdad334"),
+   first name : "Kevin P" (Wrong field name)
+}
+
+Top level field names cannot start with $ character.
+Example:
+========
+{
+   _id : ObjectId("ader453535sdad334"),
+   $first_name : "Kevin P" (Wrong field name)
+}
+
+Collections
+===========
+
+MongoDB stores documents in a collections.
+A collection is a group of documents.
+
+In RDBMS Collection is Table.
+
+Collection is not fixed schema,means it is dynamic schema.(means documents can have any number of different formats)
+
+Example:
+========
+{
+   _id : ObjectId("ader453535sdad334"),
+   first_name : "Kevin P"
+}
+{
+   _id : ObjectId("ader453535sdad221"),
+   first_name : "John",
+   last_name : "Ryan"
+}
+{
+   _id : ObjectId("a445r453535sdad221"),
+   first_name : "John",
+   last_name : "Doe",
+    address :{
+	city: "california",
+	country : "USA"
+	}
+}
+
+restrictions for writing collection names:
+==========================================
+
+The Collection name cannot 
+
+1. contain $
+2. contain null character(\0)
+3. be an empty string
+4  begin with system (word) because mongodb reserves system(word) for internal collection names.
+
+
+DataBases
+=========
+MongoDB stores Collection in DB.
+A single instance of MongoDB can contain multiple databases.
+Group of collections is DB..
+
+restrictions for writing Database names:
+==========================================
+The Database name cannot 
+
+1. be an empty string
+2. contain any of these characters /,\,.,",*,<,>,|,?,$,a single space or null character.
+3. Exceed the maximum size of 64 bytes
+
+Reserved Database name in MongoDB
+=================================
+admin
+local
+config
+
+when creating new db's we cannot use above names.
+
+NameSpace
+=========
+A namespace is a concatenation of the db name with the collection name
+
+Example:
+
+collection name is employee
+database name is ems
+namespace is ems.employee
+
+Mongo Shell
+===========
+like 
+
+Oracle => SQL * plus
+MySQL => mysql shell etc.,
+
+Mongo Shell supports javascript syntax
+mongo shell provides a set of commands to interact with mongodb server.
+
+Example:
+=======
+
+$show dbs => list of predefined and userdefined db's are listed
+
+
+
+CRUD Operations in MongoDB
+==========================
+C => Create
+===========
+db.books.insertOne({
+... title:"Meluha",
+... author:"chetan bhagat",
+... published_year: "2012"
+... });
+
+R => Read
+=========
+db.books.findOne();
+======================
+which retrieves first document in collection
+
+db.books.find();
+=================
+which retrieves all documents in collection
+
+db.books.find().pretty();
+=============================
+which retrieves all documents in collection and formats the output
+
+U=> Update
+===========
+db.books.updateOne(
+... { "title" : "Two States"},
+... { $set:{published_year:2014}}
+... )
+
+D => Delete
+===========
+ db.books.deleteOne( { "title" : "Two States"});
+
+MongoDB Data Types
+==================
+
+Null
+====
+null type is used to represent null and a field that does not exist
+
+Example:
+=======
+{
+  "DOJ" : null
+}
+
+Boolean
+=======
+The Boolean type has two values true and false.
+
+Example:
+=======
+{
+  "delivery_status" : true
+}
+
+Number
+======
+By default, mongo shell uses the 64 bit floating point numbers
+
+Example:
+======
+{
+
+  "product_price" : 125.99,
+  "product_qty" : 19
+}
+
+NumberInt
+NumberLong
+
+are two classes represent 4-byte and 8-byte integers respectively.
+
+Example:
+======
+{
+
+  "product_mfgyr" : NumberInt("2022"),
+  "product_batchcode" : NumberLong("34243242")
+}
+
+
+String
+=======
+string type represents any string of UTF-8 character.
+
+Example:
+======
+{
+
+  "product_name" : "Dell Laptop i5",
+}
+
+Date:
+====
+the date type stores dates as 64-bit integers that represents milliseconds
+it doesnot store time zone
+
+
+Example:
+======
+{
+
+  "product_expdate" : new Date("June 01,2023"),
+}
+
+
+Date returns string representation of the data not Date object.
+
+Mongo Shell uses local time zone settings to display the date.
+
+Regular Expressions
+====================
+MongoDB allows to store JS regular expressions 
+
+For Example:
+===========
+{
+
+  "pattern" : /\d+/
+}
+
+in the above example, /\d+/ is regular expression that matches one or more digits
+
+Array
+=====
+Allows you to store list of values of any type.
+The values need not be of same type
+
+For Example:
+===========
+{
+ "movie_title" : "Brahmastra",
+ "reviews" : ["Swapna",2,"John",5]
+}
+
+Mongodb understands their structures and allows programmer to carryout operations on their elements.
+
+For Example:
+
+Query all documents where reviews are 5.
+
+Embedded Document:
+==================
+
+A value of a document can be an another document,which is often referred as embedded document,
+
+For Example:
+
+{
+   _id : ObjectId("a445r453535sdad221"),
+   first_name : "John",
+   last_name : "Doe",
+    address :{
+	city: "california",
+	country : "USA"
+	}
+}
+
+In above example address is an embedded document,with its own fields city and country.
+
+Object Id
+=========
+
+In MongoDB, every document has an "_id" key,
+The value of the "_id" key can be any type.
+How ever it defaults to an ObjectId.
+
+The value of the "_id" key must be unique so that MongoDB can identify every document uniquely in the collection
+
+Object Id is the default type of "_id".
+
+Object Id uses 12 bytes for storage where each byte represents 2 hexadecimal digits, in total an Object Id is 24 hexadecimal digits.
+
+
+12 byte object id value consists of:
+
+=> A 4 byte timestamp value that represents the ObjectId generated time measured in seconds since Unix epoch.
+
+=> A 5 byte random value
+
+=> A 3 byte increment counter,initialized to a random value
+
+cube of (256) => 1,67,77,216 unique ObjectId's can be generated at a single second per process.
+
+Selection
+=========
+db.books.find({published_year:"2012"})
+
+the above query selects books which are published_year is 2012
+
+
+projection
+==========
+display bookname and publishedyear from the books collections
+
+
+db.books.find({},{title:1,published_year:1}).pretty();
+
+
+remove _id from the projection
+===============================
+db.books.find({},{title:1,published_year:1,_id:0}).pretty();
+
+
+display all columns except few columns
+======================================
+db.books.find({},{published_year:0,_id:0}).pretty();
+
+
+if the number of files to return is more ,you can project document to exclude other fields instead as above
+
+Return fields in the embededded document
+========================================
+
+db.customer.insertMany([ { customerName: "Rama", customerEmail: "ram@gmail.com", customerAddress:{ city:"Bangalore", state:"Karnataka" } },{ customerName: "Raja", customerEmail: "raj@gmail.com", customerAddress:{ city:"Hyderabad", state:"Telangana" } }]);
+
+ db.customer.find({},{customername:1,"customerAddress.city":1}).pretty();
+
+
+Selection and Projection
+=========================
+
+db.books.find({published_year:"2012"},{title:1,author:1,_id:0});
+
+db.books.find({published_year:"2012"},{title:1,author:1,published_year:1,_id:0}).pretty();
+
+
+$eq (=)
+======
+db.books.find({published_year:
+
+{$eq:"2012"}
+},
+{title:1,author:1,published_year:1,_id:0}).pretty();
+
+$eq (=) in embedded document
+==============================
+db.customer.find({
+  "customerAddress.city" : {
+	$eq:"Bangalore"
+   }
+},{customerName:1,"customerAddress.city":1}).pretty();
+
+$ne (!=)
+========
+db.books.find({author:  {$ne:"John Grisham"} }, 
+{title:1,author:1,published_year:1,_id:0}).pretty();
+
+
+$ne (!=) in embedded document
+==============================
+db.customer.find({
+  "customerAddress.city" : {
+	$ne:"Bangalore"
+   }
+},{customerName:1,"customerAddress.city":1,_id:0}).pretty();
+
+
+
+$gt(>) in mongodb
+==================
+db.product
+
+db.product.insertMany([{ "product_name" : "Dell Laptop i5",   "product_price" : 125.99,   "product_qty" : 19},{ "product_name" : "Acer Laptop i5",   "product_price" : 105.99,   "product_qty" : 12},{ "product_name" : "HP Laptop i5",   "product_price" : 145.99,   "product_qty" : 9}])
+
+db.product.find({product_qty:{$gt:10}}).pretty();
+
+db.product.find({product_qty:{$gt:10}},{_id:0,product_price:0}).pretty();
+
+$gte(>=) in mongodb
+===================
+
+db.product.find({product_qty:{$gte:12}}).pretty();
+
+db.product.find({product_qty:{$gte:12}},{_id:0,product_price:0}).pretty();
+
+
+$lt(<) in mongodb
+==================
+db.product.find({product_qty:{$lt:10}}).pretty();
+
+db.product.find({product_qty:{$lt:10}},{_id:0,product_price:0}).pretty();
+
+
+
+$lte(<=) in mongodb
+===================
+
+db.product.find({product_qty:{$lte:12}}).pretty();
+
+db.product.find({product_qty:{$lte:12}},{_id:0,product_price:0}).pretty();
+
+
+
+$in operator in mongodb
+=========================
+
+db.product.find({product_qty:{$in:[9,12]}}).pretty();
+
+db.product.find({product_qty:{$in:[9,12]}},{_id:0,product_price:0}).pretty();
+
+$nin operator in mongodb
+=========================
+
+db.product.find({product_qty:{$nin:[9,12]}}).pretty();
+
+db.product.find({product_qty:{$nin:[9,12]}},{_id:0,product_price:0}).pretty();
+
+$and operator in mongodb
+=========================
+db.product.find({$and:[
+{
+product_qty:9
+},
+{
+product_price:145.99
+}
+]}).pretty();
+
+db.product.find({$and:[
+{
+product_qty:9
+},
+{
+product_price:145.99
+}
+]},{_id:0,product_price:0}).pretty();
+
+
+$or operator in mongodb
+=========================
+db.product.find({$or:[
+{
+product_qty:9
+},
+{
+product_price:105.99
+}
+]}).pretty();
+
+db.product.find({$or:[
+{
+product_qty:9
+},
+{
+product_price:105.99
+}
+]},{_id:0,product_price:0}).pretty();
+
+
+$not operator in mongodb
+=========================
+db.product.find({
+product_qty:{
+$not:{
+ $eq:9
+ }
+}}).pretty();
+
+db.product.find({
+product_qty:{
+$not:{
+ $eq:9
+ }
+}},{_id:0,product_price:0}).pretty();
+
+
+$nor operator in mongodb
+=========================
+
+db.product.find({
+$nor:[{
+ product_qty:9
+ }]
+},{_id:0,product_price:0}).pretty();
+
+
+$exists operator in mongodb
+============================
+write a mongodb query where it display the product whose price exists
+
+db.product.insertMany([{ "product_name" : "Dell Laptop i3","product_qty" : 0},{ "product_name" : "HP Laptop i3"}])
+
+db.product.find({
+product_price:{
+	$exists:true
+}},{_id:0,product_price:0}).pretty();
+
+Sort() method in mongodb
+========================
+ascending order
+===============
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0,product_qty:0}).
+sort({product_price:1}).
+pretty();
+
+descending order
+===============
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0,product_qty:0}).
+sort({product_price:-1}).
+pretty();
+
+
+sorting using two fields
+===============================
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0}).
+sort({
+product_price:1,
+product_qty:1
+}).
+pretty();
+
+
+sorting using two fields (2)
+===============================
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0}).
+sort({
+product_price:1,
+product_qty:-1
+}).
+pretty();
+
+limit() method in mongodb
+=========================
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0,product_qty:0}).
+sort({product_price:1}).
+limit(3).
+pretty();
+
+skip() method in mongodb
+=========================
+db.product.find({
+product_price:{
+	$exists:1
+}},{_id:0,product_qty:0}).
+sort({product_price:1}).
+skip(3).
+limit(3).
+pretty();
+
+updateMany
+==========
+db.product.updateMany(
+	{product_price:{$eq:null}},
+	{$set:{product_price:99}}
+);
+      
+
+renaming of the field
+=======================
+
+db.product.updateMany({},
+	{
+		$rename:{
+			product_price:"prd_price"
+		}
+	}
+);
+
+
+upsert
+======
+upsert = update + insert
+
+
+db.product.updateMany(
+	{_id:8},
+	{$set:{product_price:2999}}
+);
+
+
+db.product.updateMany(
+	{_id:8},
+	{$set:{product_price:2999}},
+	{upsert : true}
+);
+
+Aggregation Pipeline
+=====================
+to perform aggregate operations like min,max,count,avg etc.,we will write aggregation pipeline
+
+use cafeshop
+
+db.items.insertMany([ {"_id":123,"itemname":"Coffee","itemprice":55,"itemweight":200,"itemqty":20}, {"_id":124,"itemname":"Poha","itemprice":95,"itemweight":250,"itemqty":25},  {"_id":128,"itemname":"SandWich","itemprice":155,"itemweight":300,"itemqty":15} ])
+
+
+db.items.insertOne({"_id":123,"itemname":"Coffee","itemprice":55,"itemweight":200,"itemqty":20});
+
+$sum
+====
+db.items.aggregate([
+
+{
+	$group: {
+	   _id:null,
+	   totalQty : {$sum : '$itemqty'}
+	},
+},
+
+]);
+
+
+db.items.aggregate([
+
+{
+	$group: {
+	   _id:null,
+	   totalQty : {$sum : '$itemqty'}
+	},
+},
+{ $project : {_id:0}},
+
+]);
+
+
+grouping based on item and calculating sum of quantity
+======================================================
+
+db.items.insertMany([ {"_id":129,"itemname":"Coffee","itemprice":155,"itemweight":500,"itemqty":20}, {"_id":134,"itemname":"Poha","itemprice":295,"itemweight":500,"itemqty":25},  {"_id":138,"itemname":"SandWich","itemprice":355,"itemweight":500,"itemqty":15} ])
+
+
+db.items.aggregate([  { $group: {    _id:'$itemname',    totalQty : {$sum : '$itemqty'} }, },  ]);
+
+
+grouping based on item and calculating sum of quantity and select documents based on value of totalqty
+======================================================================================================
+db.items.aggregate([  
+{ 
+$group: {  
+	 _id:'$itemname',    
+	 totalQty : {$sum : '$itemqty'} ,
+},
+}, 
+{$match:{totalQty:{$gt:30}}},
+]);
+
+grouping based on item and calculating sum of quantity and select based on value and sort
+=========================================================================================
+db.items.aggregate([  
+{ 
+$group: {  
+	 _id:'$itemname',    
+	 totalQty : {$sum : '$itemqty'} ,
+},
+}, 
+{$match:{totalQty:{$gt:30}}},
+{$sort:{totalQty:1}},
+]);
+
+grouping based on item and calculating sum of quantity and select based on value and sort in descending order
+=========================================================================================
+db.items.aggregate([  
+{ 
+$group: {  
+	 _id:'$itemname',    
+	 totalQty : {$sum : '$itemqty'} ,
+},
+}, 
+{$match:{totalQty:{$gt:30}}},
+{$sort:{totalQty:-1}},
+]);
+
+$count
+======
+db.items.aggregate([  { $group: {    _id:'$itemname',    itemsCount:{$count:{}} }, },  ]);
+
+
+db.items.aggregate([  { $group: {    _id:null,    itemsCount:{$count:{}} }, },  ]);
+
+$count and $match
+=================
+db.items.insertMany([ {"_id":139,"itemname":"Coffee","itemprice":355,"itemweight":750,"itemqty":15}, {"_id":144,"itemname":"Poha","itemprice":495,"itemweight":750,"itemqty":5}])
+
+db.items.aggregate([  { $group: {    _id:'$itemname',    itemsCount:{$count:{}} }, },  ]);
+
+db.items.aggregate([  { $group: {    _id:'$itemname',    itemsCount:{$count:{}} }, },
+{
+  $match : { itemsCount:{$gt:2} },
+},
+{$sort:{totalQty:-1}},
+]);
+
+$avg
+====
+
+db.items.aggregate([  { $group: {    _id:'$itemname',    avgQty:{$avg:'$itemqty'} }, },  ]);
+
+$avg and $match
+=================
+db.items.aggregate([  { $group: {    _id:'$itemname',    avgQty:{$avg:'$itemqty'} }, },
+{
+  $match : { avgQty:{$gt:15} },
+},
+]);
+
+$avg and $match and $sort
+==========================
+db.items.aggregate([  { $group: {    _id:'$itemname',    avgQty:{$avg:'$itemqty'} }, },
+{
+  $match : { avgQty:{$gt:15} },
+},
+{$sort:{totalQty:-1}},
+]);
+
+
+$avg and $match and $sort and $multiply
+=======================================
+db.items.aggregate([  
+{ 
+$group: {    
+_id:'$itemname',    
+avgAmt:{$avg:{$multiply :['$itemqty','$itemprice']}} }, },
+{
+  $match : { avgAmt:{$gt:3200} },
+},
+{$sort:{avgAmt:-1}},
+]);
+
+$max
+====
+db.items.aggregate([  { $group: {    _id:null,    maxQty:{$max:'$itemqty'} }, },  
+{ $project : {_id:0}},
+]);
+
+maximum value of each item
+===========================
+db.items.aggregate([  { $group: {    _id:'$itemname',    maxQty:{$max:'$itemqty'} }, },  
+]);
+
+
+$min
+====
+db.items.aggregate([  { $group: {    _id:null,    minQty:{$min:'$itemqty'} }, },  
+{ $project : {_id:0}},
+]);
+
+minimum value of each item
+===========================
+db.items.aggregate([  { $group: {    _id:'$itemname',    minQty:{$min:'$itemqty'} }, },  
+]);
+
+
+

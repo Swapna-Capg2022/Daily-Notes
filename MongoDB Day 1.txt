@@ -1,0 +1,130 @@
+MongoDB
+=======
+Open SOurce
+cross platform
+distributed document based database
+
+
+MongoDB Inc
+
+Humongous (Huge and Enormous)
+
+MongoDB is developed to store huge amount of data and also perform fast.
+
+it is not SQL but a NOSQL DB opposite to SQL based DB
+
+it store data in JSON based documents(files)
+
+Example:
+
+{
+"_id" : ObjectId("42423424243242fwrwr"), => unique id (which can acts as unique key/Primarykey),
+"empName":"Rama",
+"empLocation" : "Hyderabad",
+"empDepartment" : "IT",
+"empSalary" : 56000
+}
+
+
+Advantages of MongoDB
+=====================
+1. MongoDB store data in the JSON format ,it allows to store the data in hierarchial format.
+2. Easy to store and retrieve data in efficient manner.
+3. Easy to add new features to the existing document.
+4. Fast when accessing Huge Data
+5. it supports C#,Java,Python,Nodejs etc
+6. Tools are provided by mongodb to manage the Mongodb dbs
+
+
+SQL
+===
+advantages
+==========
+BackUp and Recovery
+Security
+
+disadvantages
+=============
+Cost
+Complexity
+
+
+NoSQL
+=====.
+
+
+
+db.employee.insertMany(
+[
+ { "ename" : "Krish",
+  "emploc" : "blr",
+  "empsal" : 75000
+ },
+{
+  "ename" : "Josh",
+  "emploc" : "blr",
+  "empsal" : 35000
+ },
+{
+ "ename" : "Joshi",
+ "emploc" : "chn",
+ "empsal" : 45000
+}
+]
+);
+
+
+Online BookStore
+================
+
+An online bookstore where we can list all the books with authors and price
+where customer can register and buy the books
+
+
+Collections
+===========
+Book(collection)
+====
+fields
+======
+bookName  string
+bookPrice number
+bookAuthor string
+bookDescription string
+
+Customer(collection)
+========
+fields
+======
+customerName
+customerEmail
+customerMobNo
+customerPwd
+customerAddress
+
+Manager(collection)
+=======
+fields
+======
+managerName
+managerEmail
+managerPwd
+managerMobNo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

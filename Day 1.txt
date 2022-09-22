@@ -1,0 +1,45 @@
+Visual Studio Code
+Mongodb
+Node
+postman
+
+70% coding with different example
+30% theory
+
+9 to 6
+
+9 to 1pm is purely my session
+ (how to create er diagram)
+ (create documents and database and insert commands in mongodb)
+
+insert multiple documents
+
+Handson: 2 to 4 handson(how to create er diagram)
+(create documents and database and insert commands in mongodb)
+
+Questions can asked
+
+project : 4 to 6pm project 
+
+MEAN
+
+MERN
+
+Mongodb
+========
+documents
+db
+insert
+find
+
+
+Every Day 2.30 to 3.00pm 
+
+MCQ exam 25 questions (to understand whether you understood topics are covered )
+
+upto 7pm
+
+7892741906 => Swapna
+
+CR => Vivek
+ACR => Varsha 
